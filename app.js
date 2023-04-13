@@ -54,5 +54,28 @@ app.post('/cars', (req, res) => {
   })
 
 
+app.patch("/cars/:name", (req, res) => {
+    const car = cars.find(car => car.name.toLowerCase() === req.params.name.toLowerCase());
+  
+    if (car === undefined) {
+      return res.status(404).send({error: "car does not exist"})
+    }
+  
+    try {
+      const updatedCar = { ...req.body, name: capitalise(req.body.name), id: car.id}
+  
+      console.log("line 75", updatedCar)
+  
+      const idx = cars.findIndex(f => f.id === car.id);
+      console.log(idx)
+      cars[idx] = updatedCar;
+      console.log(cars[idx])
+      res.send(updatedCar)
+    } catch (error) {
+      res.status(400).send(error.message)
+    }
+
+}
+)
 
 module.exports = app;
