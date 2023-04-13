@@ -78,4 +78,20 @@ app.patch("/cars/:name", (req, res) => {
 }
 )
 
+
+app.delete("/cars/:name", (req, res) => {
+
+    const name = req.params.name.toLowerCase();
+  
+    const carIndex = cars.findIndex(car => car.name.toLowerCase() === name);
+  
+    if (carIndex === -1) {
+      res.status(404).send({ error: "car does not exist" })
+    } else {
+      cars.splice(carIndex, 1);
+  
+      res.status(204).send()
+    }
+  })
+
 module.exports = app;
